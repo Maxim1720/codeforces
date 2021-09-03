@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+int comp(const void *elem1, const void* elem2);
+int rev_comp(const void *elem1, const void* elem2);
+
+void feelArr(int arr[], int size)
+{
+    for(int i=0;i<size;i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+}
+
+
+int main()
+{
+    int t;
+    scanf("%d", &t);
+    int results[t];
+    for(int i=0;i<t;i++)
+    {
+        int n, max;
+        scanf("%d%d", &n, &max);
+        int a[n],b[n];
+        feelArr(a, n);
+        feelArr(b, n);
+        
+        qsort(a, n, sizeof(*a), comp);
+        qsort(b,n,sizeof(*b), rev_comp);
+        
+        for(int j=0;j<max;j++)
+        {
+            if(a[j] < b[j])
+            {
+                a[j] ^= b[j];
+                b[j] ^= a[j];
+                a[j] ^= b[j];
+            }
+        }
+        int sum = 0;
+        for(int j = 0;j<n;j++)
+        {
+            sum += a[j];
+        }
+        results[i] = sum;
+    }
+    
+    for(int i=0;i<t;i++)
+    {
+        printf("%d\n", results[i]);
+    }
+}
+
+int comp(const void *elem1, const void* elem2)
+{
+    int f = *((int*)elem1);
+    int s = *((int*)elem2);
+    
+    int result = 0;
+    if (f > s){
+        result = 1;
+    } 
+    if (f < s) {
+        result = -1;
+    }
+    return result;
+}
+
+int rev_comp(const void *elem1, const void* elem2)
+{
+    int f = *((int*)elem1);
+    int s = *((int*)elem2);
+    
+    int result = 0;
+    
+    if (f < s){
+        result = 1;
+    } 
+    if (f > s) {
+        result = -1;
+    }
+    return result;
+    
+}
